@@ -7,9 +7,14 @@ const router = express.Router();
 
 /* GET users listing. */
 router.get('/', function(req, res, next) {
-    res.send('respond with a resource');
+    if (req.user.admin) {
+        return User.find();
+    } else {
+        const err = new Error('You are not an admin!');
+        err.status = 403;
+        return next(err);
+    }
 });
-
 router.post('/signup', (req, res) => {
   User.register(
       new User({username: req.body.username}),
