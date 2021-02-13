@@ -1,6 +1,6 @@
 const express = require('express');
 const bodyParser = require('body-parser');
-const Promotion = require('../models/promotions');
+const Promotion = require('../models/promotion');
 const promotionRouter = express.Router();
 const authenticate = require('../authenticate');
 
@@ -65,7 +65,7 @@ promotionRouter.route('/:promotionId')
     })
     .catch(err => next(err));
 })
-.delete(aauthenticate.verifyAdmin, authenticate.verifyUser, (req, res, next) => {
+.delete(authenticate.verifyAdmin, authenticate.verifyUser, (req, res, next) => {
     Promotion.findByIdAndDelete(req.params.promotionId)
     .then(response => {
         res.statusCode = 200;
